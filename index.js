@@ -34,6 +34,11 @@ var RemoteSitemapGenerator = function (url, options) {
         this.options.fields.priority = this.options.fields.priority.toFixed(2);
     }
 
+    // check if blacklisted urls are set
+    if (this.options.blacklist === undefined) {
+        this.options.blacklist = [];
+    }
+
     this.uri = new URL(url);
     this.crawler = new crawler(this.uri.host);
     this.crawler.initialPath = '/';
@@ -104,6 +109,11 @@ RemoteSitemapGenerator.prototype.createSitemap = function () {
             console.log('Site not found');
             process.exit(1);
         }
+
+        // remove blacklisted urls by setting them as ignored ones
+        _.forEach(this.options.blacklist, (blacklistedUrl) => {
+            this.ignoreUrl(blacklistedUrl);
+        });
 
         this.write((err, path) => {
             if (err) {

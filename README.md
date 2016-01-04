@@ -14,6 +14,9 @@ remoteSitemapGenerator(<url> [, options]);
 ## Options
 Options are passed to the function as an object. The `priority` and `changefreq` of every link is calculated based on the amount ob internal links to a specific url. This can be overwritten by passing over the respective attributes in the `fields` object.
 
+### blacklist
+Array of fully qualified urls that will not be outputted to the sitemap. Default: `[]`
+
 ### fields
 Any key-value-pair you set will be added to the `<url>` in the sitemap.
 
