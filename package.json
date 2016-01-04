@@ -1,6 +1,6 @@
 {
   "name": "remote-sitemap-generator",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Simple sitemap generator for remote resources",
   "homepage": "https://github.com/tobiashinz/remote-sitemap-generator",
   "main": "index.js",
