@@ -27,7 +27,7 @@ var RemoteSitemapGenerator = function (url, options) {
         this.options = _.merge(this.defaults, options);
     } else {
         this.options = this.defaults;
-    };
+    }
 
     // set correct format for priority if it set
     if (this.options.fields.priority) {
