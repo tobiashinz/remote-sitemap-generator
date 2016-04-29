@@ -15,7 +15,7 @@ var RemoteSitemapGenerator = function (url, options) {
         ignoreQueryStrings: true,
         filePath: './',
         fields: {},
-        ignoredFileTypes: ['7z', 'atom', 'bmp', 'css', 'exe', 'gif', 'gz', 'gzip', 'ico', 'jpeg', 'jpg', 'js', 'json', 'mp3', 'mp4', 'ogg', 'pdf', 'png', 'rar', 'rss', 'ttf', 'webm', 'webp', 'woff', 'zip']
+        ignoredFileTypes: ['7z', 'atom', 'bmp', 'css', 'exe', 'gif', 'gz', 'gzip', 'ico', 'jpeg', 'jpg', 'js', 'json', 'mp3', 'mp4', 'ogg', 'pdf', 'png', 'rar', 'rss', 'svg', 'ttf', 'webm', 'webp', 'woff', 'zip']
     };
 
     // array for urls
@@ -40,9 +40,9 @@ var RemoteSitemapGenerator = function (url, options) {
     }
 
     this.uri = new URL(url);
-    this.crawler = new crawler(this.uri.host);
-    this.crawler.initialPath = '/';
-    this.crawler.initialPort = '80';
+    this.crawler = new crawler(this.uri.hostname);
+    this.crawler.initialPath = this.uri.pathname || '/';
+    this.crawler.initialPort = this.uri.port || '80';
 
     // check if a protocol was set
     if (!this.uri.protocol) {
