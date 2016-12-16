@@ -40,17 +40,18 @@ var RemoteSitemapGenerator = function (url, options) {
         this.options.blacklist = [];
     }
 
+    // parse entered url
     this.uri = new URL(url);
-    this.crawler = new crawler(this.uri.hostname);
-    this.crawler.initialPath = this.uri.pathname || '/';
-    this.crawler.initialPort = this.uri.port || '80';
 
     // check if a protocol was set
     if (!this.uri.protocol) {
         this.uri.set('protocol', 'http:');
     }
 
-    this.crawler.initialProtocol = this.uri.protocol.replace(':', '');
+    this.crawler = new crawler(this.uri.toString());
+    this.crawler.initialPath = this.uri.pathname || '/';
+    this.crawler.initialPort = this.uri.port || '80';
+
     this.crawler.userAgent = 'Remote-Sitemap-Generator';
 
     // check if querystrings should be ignored

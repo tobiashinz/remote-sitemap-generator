@@ -29,7 +29,7 @@
     "lodash": "^3.10.1",
     "request": "^2.67.0",
     "robots-parser": "^1.0.0",
-    "simplecrawler": "^0.5.4",
+    "simplecrawler": "^1.0.3",
     "url-parse": "^1.0.5",
     "xmlbuilder": "^4.1.0"
   },
