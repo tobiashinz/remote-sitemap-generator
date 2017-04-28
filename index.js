@@ -93,16 +93,16 @@ RemoteSitemapGenerator.prototype.createSitemap = function () {
     });
 
     this.crawler.on('fetch404', (item) => {
-        // mark url to be ignored later
-        this.ignoreUrl(item.url);
-
         console.log('Not found: ' + item.url);
     });
 
-    this.crawler.on('fetcherror', (item) => {
-        // mark url to be ignored later
-        this.ignoreUrl(item.url);
+    this.crawler.on('fetchcomplete', (item) => {
+        if (item.stateData.code === 200) {
+            this.unIgnoreUrl(item.url);
+        }
+    });
 
+    this.crawler.on('fetcherror', (item) => {
         console.log('Fetch error: ' + item.url);
     });
 
@@ -111,11 +111,6 @@ RemoteSitemapGenerator.prototype.createSitemap = function () {
             console.log('Site not found');
             process.exit(1);
         }
-
-        // remove blacklisted urls by setting them as ignored ones
-        _.forEach(this.options.blacklist, (blacklistedUrl) => {
-            this.ignoreUrl(blacklistedUrl);
-        });
 
         this.write((err, path) => {
             if (err) {
@@ -203,15 +198,14 @@ RemoteSitemapGenerator.prototype.write = function (callback) {
 };
 
 /**
- * Set an URL to be ignored
+ * Set an URL to be unignored
  * @param  {String} url the URL
  */
-RemoteSitemapGenerator.prototype.ignoreUrl = function (url) {
-    // check if url is already known
+RemoteSitemapGenerator.prototype.unIgnoreUrl = function (url) {
     // get location of item
     var index = _.findIndex(this.seenUrls, 'url', url);
     if (index >= 0) {
-        this.seenUrls[index].ignore = true;
+        this.seenUrls[index].ignore = false;
     }
 };
 
@@ -238,7 +232,7 @@ RemoteSitemapGenerator.prototype.addSeenUrl = function (url) {
         }
 
         if (allowed) {
-            this.seenUrls.push({url: url, counter: 1, ignore: false});
+            this.seenUrls.push({url: url, counter: 1, ignore: true});
             console.log('Found: ' + url);
         } else {
             console.log('Ignored: ' + url);
